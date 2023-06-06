@@ -1,0 +1,12 @@
+#modificationContent{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+#modificationContent p{
+    display: flex;
+    align-items: center;
+    margin-bottom: 2em;
+}
+

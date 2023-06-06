@@ -3,15 +3,19 @@ let comptUser = {};
 
 const init = () => {
   const form = document.querySelector('form');
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
+  form.addEventListener('submit', (e) =>handleSubmit(e)
+  );
+};
+init();
+
+const handleSubmit = (e) => {
+ e.preventDefault();
     email = e.target.email.value;
     password = e.target.password.value;
     comptUser = { email, password };
     console.log(comptUser);
-    authentification();
-  });
-};
+    authentification();}
+
 
 const authentification = () => {
   fetch(urlAuth, {
@@ -29,12 +33,9 @@ const authentification = () => {
       const { token, userId } = data;
         localStorage.setItem('token', token);
         localStorage.setItem('userId', userId);
-      // Effectuer une vérification supplémentaire ici
       if (token && userId) {
         alert('Connexion en cours');
         window.location.href = 'index.html';
-      } else {
-        alert('Utilisateur inconnu');
       }
     })
     .catch(error => {
@@ -42,5 +43,3 @@ const authentification = () => {
       alert(error);
     });
 };
-
-init();

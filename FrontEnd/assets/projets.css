@@ -1,12 +1,40 @@
 #modificationContent{
     display: flex;
     justify-content: center;
-    gap: 10px;
+    gap: 30px;
 }
 
 #modificationContent p{
     display: flex;
     align-items: center;
+
+}
+
+#modificationContent img {
+    width: 17px;
+}
+
+#modificationContent div {
+    display: flex;
+    gap: 10px;
     margin-bottom: 2em;
 }
 
+.navbarUser{
+    height: 60px;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.navbarUser button{
+    height: 35px;
+    width: 200px;
+    display: flex;
+    align-items: center;
+    border-radius: 20px;
+    border: none;
+    justify-content: center;
+    font-weight: 600;
+}

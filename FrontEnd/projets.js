@@ -1,45 +1,72 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
+
   let utilisateurConnecte = localStorage.getItem("token");
   const connectButton = document.getElementById('connectButton');
   const modificationContent = document.getElementById('modificationContent');
   const sectionBody = document.querySelector("body");
+  const logoModifierBlack = src = "./assets/icons/edit-regular-black.svg";
+  const logoModifierWhite = src = "./assets/icons/edit-regular-white.svg";
+
   // Vérifie si l'utilisateur est connecté et modifie le contenu en conséquence
   if (utilisateurConnecte) {
-    connectButton.innerHTML = 'logout'; 
-    //Création Div haut de page
-    const modificationNav = document.createElement("div");
-    sectionBody.insertAdjacentElement('beforebegin', modificationNav);
-    modificationNav.classList="navbarUser";
-    //Création Bouton
-    const publishChangement = document.createElement("button");
-    modificationNav.appendChild(publishChangement)
-    publishChangement.innerHTML = "publier les changements"
-    // Groupe dans mes projets
-    const modificationGroup = document.createElement("div");
-    const modificationButton = document.createElement("p");
-    const modificationIcon = document.createElement("img");
-    modificationIcon.src="./assets/icons/pen-to-square-regular.svg";
-    modificationButton.innerHTML = 'modifier';
-    modificationContent.appendChild(modificationGroup)
-    modificationGroup.appendChild(modificationIcon);
-    modificationGroup.appendChild(modificationButton);
-    modificationGroup.addEventListener('click', function(){
-  })
-  } else {
+    //Changer le button en logout
+    connectButton.innerHTML = 'logout';
+    //Function button modifier
+    const boutonOpenModale = () => {
+      const modificationNav = document.createElement("div");
+      sectionBody.insertAdjacentElement('beforebegin', modificationNav);
+      modificationNav.classList = "navbar_user";
+      //Création élément NavBar
+      const groupeModifier = document.createElement("div");
+      const iconModifierWhite = document.createElement("img");
+      const textModifier = document.createElement("p");
+      const publishChangement = document.createElement("button");
+      //Dossier Parent NavBar
+      modificationNav.appendChild(groupeModifier);
+      groupeModifier.appendChild(iconModifierWhite);
+      groupeModifier.appendChild(textModifier);
+      //Contenu Navbar
+      iconModifierWhite.src = logoModifierWhite;
+      textModifier.innerHTML = "modifier";
+      modificationNav.appendChild(publishChangement)
+      publishChangement.innerHTML = "publier les changements"
+      //Création élément Mes Projets
+      const groupeModifierProjet = document.createElement("button")
+      const iconModifierBlack = document.createElement("img")
+      const textModifierBlack = document.createElement("p");
+      //Dossier Parents Projets
+      modificationContent.appendChild(groupeModifierProjet);
+      groupeModifierProjet.appendChild(iconModifierBlack)
+      groupeModifierProjet.appendChild(textModifierBlack)
+      //Contenu Projets
+      groupeModifierProjet.classList = "open_modal"
+      iconModifierBlack.src = logoModifierBlack;
+      textModifierBlack.innerHTML = "modifier"
+      //Event Button Modifier
+      groupeModifier.addEventListener('click', function () {
+        return console.log("Ouvrir modale haut")
+      })
+      groupeModifierProjet.addEventListener('click', function () {
+        return console.log("Ouvrir modale bas")
+      })
+    }
+    boutonOpenModale()
+
+  } else { //Sinon Button Login
     connectButton.innerHTML = 'login';
   }
 
-// Gestionnaire d'événement de clic
-connectButton.addEventListener('click', function() {
-  if (utilisateurConnecte) {
-    // Supprime les données du localStorage
-    localStorage.removeItem("token");
-    localStorage.removeItem("userId");
-    window.location.href = "index.html";
-  } else {
-    window.location.href = "connect.html";
-  }
-});
+  // Event Button Login/Logout
+  connectButton.addEventListener('click', function () {
+    if (utilisateurConnecte) {
+      // Supprime les données du localStorage
+      localStorage.removeItem("token");
+      localStorage.removeItem("userId");
+      window.location.href = "index.html";
+    } else {
+      window.location.href = "connect.html";
+    }
+  });
 
 })
 

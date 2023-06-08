@@ -4,37 +4,35 @@
     gap: 30px;
 }
 
-#modificationContent p{
+#modificationContent button {
     display: flex;
     align-items: center;
-
-}
-
-#modificationContent img {
-    width: 17px;
-}
-
-#modificationContent div {
-    display: flex;
     gap: 10px;
     margin-bottom: 2em;
+    border: none;
+    background-color: transparent;
 }
 
-.navbarUser{
-    height: 60px;
+.navbar_user{
+    gap: 20px;
     background-color: black;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.navbarUser button{
+.navbar_user button{
     height: 35px;
     width: 200px;
-    display: flex;
-    align-items: center;
     border-radius: 20px;
     border: none;
-    justify-content: center;
     font-weight: 600;
+}
+
+.navbar_user div{
+    height: 50px;
+    gap: 10px;
+    display: flex;
+    color: white;
+    align-items: center;
 }

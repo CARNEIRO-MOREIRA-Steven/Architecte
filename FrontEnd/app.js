@@ -33,6 +33,7 @@ const buttonNewImage = document.createElement("button");
 buttonNewImage.classList = "button_modal";
 modal.appendChild(buttonNewImage);
 buttonNewImage.innerHTML = "Ajouter une photo";
+buttonNewImage.addEventListener('click', ajusteNewImage)
 
 const textSupprimer = document.createElement("p");
 modal.appendChild(textSupprimer);
@@ -51,9 +52,47 @@ function toggleModal() {
     }
 }
 
-
-
-
-
-
-//          S0phie
+function ajusteNewImage() {
+    const titleModal = document.querySelector("h1");
+    titleModal.innerHTML = "Ajout photo";
+  
+    const formNewImage = document.createElement("form");
+    formNewImage.classList = "formulaire_ajust";
+    
+    const imageNewImageLabel = document.createElement("label");
+    imageNewImageLabel.textContent = "Image";
+    formNewImage.appendChild(imageNewImageLabel);
+    
+    const imageNewImage = document.createElement("input");
+    imageNewImage.type = "file";
+    formNewImage.appendChild(imageNewImage);
+    
+    const titleNewImageLabel = document.createElement("label");
+    titleNewImageLabel.textContent = "Titre";
+    formNewImage.appendChild(titleNewImageLabel);
+  
+    const titleNewImage = document.createElement("input");
+    titleNewImage.type = "text";
+    formNewImage.appendChild(titleNewImage);
+  
+    const categoryNewImageLabel = document.createElement("label");
+    categoryNewImageLabel.textContent = "Catégorie";
+    formNewImage.appendChild(categoryNewImageLabel);
+  
+    const categoryNewImage = document.createElement("select");
+    formNewImage.appendChild(categoryNewImage);
+  
+    for (let i = 0; i < listCategories.length; i++) {
+      const { id, name } = listCategories[i];
+      const option = document.createElement("option");
+      option.value = id;
+      option.text = name;
+      categoryNewImage.appendChild(option);
+    }
+  
+    editModal.innerHTML = "";
+    textSupprimer.innerHTML = "";
+    buttonNewImage.classList = "button_grey button_modal";
+    buttonNewImage.innerHTML = "Valider";
+    editModal.appendChild(formNewImage);
+}

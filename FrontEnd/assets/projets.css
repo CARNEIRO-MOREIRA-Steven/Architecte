@@ -136,3 +136,20 @@
     margin-top: 10px;
     font-size: 13px;
 }
+
+.button_grey{
+    background-color: grey;
+}
+
+.edit_modal .formulaire_ajust{
+    align-content: center;
+}
+
+.formulaire_ajust{
+    display: flex;
+    flex-direction: column;
+    border: none;
+    gap: 20px;
+    width: 100%;
+    margin: 0px 20px;
+}

@@ -10,9 +10,15 @@
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/index.css">
 	<link rel="stylesheet" href="./assets/projets.css">
-	<script src="./script.js"></script>
 </head>
 <body>
+<div class="modal_container">
+	<div class="overlay modal_trigger"></div>
+	<div class="modal">
+		<button class="close_modal modal_trigger">x</button>
+		<h1>Galerie photo</h1>
+		<div class="edit_modal modal_gallery"></div>
+	</div></div>
 <header>
 	<h1>Sophie Bluel <span>Architecte d'inteérieur</span></h1>
 	<nav>
@@ -23,7 +29,7 @@
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
-</header><script src="./projets.js"></script>
+</header>
 <main>
 	<section id="introduction">
 		<figure>
@@ -38,10 +44,12 @@
 	</section>
 	<section id="portfolio">
 		<div id="modificationContent">
-		<h2>Mes Projets</h2></div>
+		<h2>Mes Projets</h2>
+		<button class="open_modal modal_trigger"></button>
+		</div>
 		<div class="filters"></div>
 		<div class="gallery"></div>
-	</section>
+	</section>	
 	<section id="contact">
 		<h2>Contact</h2>
 		<p>Vous avez un projet ? Discutons-en !</p>
@@ -56,7 +64,9 @@
 		</form>
 	</section>
 </main>
-
+<script src="./script.js"></script>
+<script src="./projets.js"></script>
+<script src="./app.js"></script>
 <footer>
 	<nav>
 		<ul>
@@ -65,4 +75,4 @@
 	</nav>
 </footer>
 </body>
-</html>
+</html> 

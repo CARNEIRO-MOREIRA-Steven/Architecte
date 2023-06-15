@@ -16,7 +16,7 @@
 	<div class="overlay modal_trigger"></div>
 	<div class="modal">
 		<button class="close_modal modal_trigger">x</button>
-		<h1 class="title_modal">Galerie photo</h1>
+		<h1 class="title_modal"></h1>
 		<div class="edit_modal modal_gallery"></div>
 	</div></div>
 <header>
@@ -55,9 +55,10 @@
 		<p>Vous avez un projet ? Discutons-en !</p>
 		<form action="#" method="post">
 			<label for="name">Nom</label>
-			<input type="text" name="name" id="name">
+			<input type="text" name="name" id="name"
+			autocomplete="name">
 			<label for="email">Email</label>
-			<input type="email" name="email" id="email">
+			<input type="email" name="email" id="email" autocomplete="name">
 			<label for="message">Message</label>
 			<textarea name="message" id="message" cols="30" rows="10"></textarea>
 			<input type="submit" value="Envoyer">

@@ -103,17 +103,15 @@
 .edit_modal{
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
-    margin: 25px;
-    margin-top: 50px;
+    margin: 50px;
+    justify-content: flex-start
 }
 .edit_modal figure{
-    padding: 5px;
+    padding: 5px 2px;
 }
 
 .edit_modal img{
     height: 100px;
-    width: 80px;
 }
 
 .button_modal{
@@ -130,26 +128,29 @@
     font-size: 15px;
 }
 
-.modal p{
-    text-align: center;
+.button_supprimer{
+    border: none;
+    background-color: #fff;
     color: red;
     margin-top: 10px;
     font-size: 13px;
+    padding-top: 20px;
+    margin: auto;
 }
 
-.button_grey{
-    background-color: grey;
+.button_none{
+    visibility:hidden;
 }
 
-.edit_modal .formulaire_ajust{
-    align-content: center;
-}
-
-.formulaire_ajust{
+#formulaire_ajust{
     display: flex;
     flex-direction: column;
     border: none;
     gap: 20px;
     width: 100%;
     margin: 0px 20px;
+}
+
+#button_send{
+    background-color: gray;
 }

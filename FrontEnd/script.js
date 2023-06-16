@@ -63,6 +63,7 @@ const displayWorks = (listWorks) =>{
                const {id, title,imageUrl,userId} = listWorks[i];
                 //On crée nos constante et les balises
                 const cardGallery = document.createElement("figure")
+                cardGallery.setAttribute('data-image-id', id)
                 const imageGallery = document.createElement("img");
                 const titleGallery = document.createElement("figcaption");
                 //On relie les dossier parents

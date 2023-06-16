@@ -1,5 +1,5 @@
 .navbar_user{
-    z-index: 100;
+    z-index: 1000;
     position: relative;
     gap: 20px;
     background-color: black;
@@ -64,9 +64,9 @@
 
 .modal{
     width: 95%;
-    max-width: 500px;
-    min-width: 300px;
-    padding: 30px;
+    max-width: 600px;
+    min-width: 400px;
+    padding: 70px;
     background: #fff;
     border-radius: 10px;
     position: absolute;
@@ -80,9 +80,18 @@
     font-size: 25px;
     position: absolute;
     top: 15px;
-    right: 15px;
+    right: 30px;
     cursor: pointer;
     background-color: #fff;
+}
+
+.modal section{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 0px;
+    padding:0px 40px ;
 }
 
 .modal h1 {
@@ -101,17 +110,30 @@
 }  
 
 .edit_modal{
+    width: 100%;
     display: flex;
-    flex-wrap: wrap;
-    margin: 50px;
-    justify-content: flex-start
+    flex-wrap: wrap; 
 }
 .edit_modal figure{
     padding: 5px 2px;
+    width: 19%;
+    display: flex;
+   flex-direction: column;
+   height: 100%;
+    align-items: center;
 }
 
 .edit_modal img{
+    display: flex;
+    align-items: center;
     height: 100px;
+    width: 80px;
+   
+}
+
+.edit_modal figcaption{
+    position: relative;
+    right: 22px;
 }
 
 .button_modal{
@@ -153,4 +175,44 @@
 
 #button_send{
     background-color: gray;
+}
+
+.select_delete{
+    display: flex;
+    top: 20px;
+    left : 30px ;
+    position: relative;
+    z-index: 10;
+}
+
+.element_add_image{
+    display: flex;
+    flex-direction: column;
+    height: 170px;
+    width: 100%;
+    background-color: #E8F1F7;
+    border-radius: 5px;
+}
+
+.new_image{
+    display: none;
+}
+
+#new_image{
+    position: fixed;
+    width: 100px;
+    top: 250px;
+    left: 300px;
+}
+
+
+.ajust_image{
+    position: fixed;
+    top: 230px;
+    left: 270px;
+    width: 200px;
+    height: 50px;
+    background-color: #CBD6DC;
+    z-index: 1;
+    border-radius: 30px;
 }

@@ -221,7 +221,6 @@ const ajusteNewImage = () => {
   buttonNewImage.classList = "button_none";
   buttonNewImage.innerHTML = "Valider";
   editModal.appendChild(formElement);
-
   buttonSend.addEventListener('click', envoyerFormulaire);
 };
 
@@ -285,12 +284,19 @@ const ajouterNouvellePhoto = (photoData) => {
   imageGallery.src = imageUrl;
   titleGallery.innerHTML = "editer";
 
-const modalGallery = document.querySelector(".modal_gallery");
-  cardGallery.appendChild(checkbox);
-  cardGallery.appendChild(imageGallery);
-  cardGallery.appendChild(titleGallery);
-  modalGallery.appendChild(cardGallery);
+  const elementAddImage = document.getElementById("logo_formulaire_image");
+  const boutonAjustNone = document.querySelector(".ajust_image");
 
+  boutonAjustNone.classList = "bouton_ajust_none";
+  elementAddImage.id = "display_image_form";
+  elementAddImage.src = imageUrl;
+  // const displayImage = document.createElement("logo_formulaire_image")
+  // displayImage.classList = "display_image_form";
+  // displayImage.appendChild(imageGallery);
+  // elementAddImage.appendChild(displayImage);
+
+  listWorks.push(photoData);
+  
   // Ajouter les éléments à la galerie sur la page d'accueil
   const gallery = document.querySelector(".gallery");
   const cardHomepage = document.createElement("figure");

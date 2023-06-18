@@ -246,3 +246,15 @@ label {
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
+
+#display_image_form {
+    position: fixed;
+    z-index: 15;
+    width: 20%;
+    height: 190px;
+    left: 300px;
+}
+
+.bouton_ajust_none{
+    visibility: hidden;
+}

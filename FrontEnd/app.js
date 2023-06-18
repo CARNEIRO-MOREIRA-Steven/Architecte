@@ -144,6 +144,8 @@ function updateHomepageGallery(imageId) {
   }
 }
 
+
+  
 // Formulaire ajout photo
 const ajusteNewImage = () => {
   // Titre modale
@@ -158,16 +160,27 @@ const ajusteNewImage = () => {
   elementAddImage.classList = "element_add_image";
   formElement.appendChild(elementAddImage);
 
+  const logoImage = "./assets/icons/logo-image.svg"
+  const elementAddImageIcon = document.createElement ("img");
+  elementAddImageIcon.src = logoImage;
+  elementAddImageIcon.id = "logo_formulaire_image"
+  elementAddImage.appendChild(elementAddImageIcon)
+
 
   const imageNewImageLabel = document.createElement("label");
   imageNewImageLabel.classList = "ajust_image"
   imageNewImageLabel.setAttribute("for", "new_image");
+  imageNewImageLabel.innerHTML = "+ Ajouter photo"
   elementAddImage.appendChild(imageNewImageLabel);
 
   const imageNewImage = document.createElement("input");
   imageNewImage.type = "file";
   imageNewImage.id = "new_image";
   elementAddImage.appendChild(imageNewImage);
+
+  const detailsAddImage = document.createElement("p");
+  detailsAddImage.innerHTML = "jpg, png : 4mo max";
+  elementAddImage.appendChild(detailsAddImage);
 
   const titleNewImageLabel = document.createElement("label");
   titleNewImageLabel.textContent = "Titre";
@@ -253,6 +266,7 @@ const envoyerFormulaire = (event) => {
       // Faire quelque chose en cas d'erreur lors de l'ajout de la photo
     });
 };
+
 const ajouterNouvellePhoto = (photoData) => {
   const { id, title, imageUrl, userId } = photoData;
   // Créer les éléments HTML de la nouvelle photo

@@ -8,6 +8,10 @@ const modal = document.querySelector(".modal");
 const elementGalery = document.createElement("section");
 modal.appendChild(elementGalery);
 const modalGallery = document.querySelector(".modal_gallery");
+const returnModal = document.createElement("img");
+returnModal.src = "./assets/icons/Arrow_Back.svg"
+
+modal.appendChild(returnModal);
 
 
 
@@ -31,7 +35,7 @@ const titleModal = document.querySelector("h1");
 const buttonNewImage = document.createElement("button");
 const buttonSupprimer = document.createElement("button");
 elementGalery.appendChild(titleModal);
-
+const lineDecoration = document.createElement("div");
 let imageId;
 
 // Affichage des images dans la modale
@@ -44,6 +48,7 @@ const displayWorksInModal = () => {
       if (isImageDeleted(id)) {
         continue;
       }
+      returnModal.classList = "return_icon_none"
       const cardGallery = document.createElement("figure");
       cardGallery.setAttribute("data-image-id", id);
       const imageId = id;
@@ -61,14 +66,16 @@ const displayWorksInModal = () => {
       cardGallery.appendChild(titleGallery);
 
       imageGallery.src = imageUrl;
-      titleGallery.innerHTML = "editer";
+      titleGallery.innerHTML = "éditer";
 
       modalGallery.appendChild(cardGallery);
     }
   }
 
   elementGalery.appendChild(modalGallery);
-
+  
+  lineDecoration.classList = "line_decoration";
+  elementGalery.appendChild(lineDecoration);
   // Ajouter les boutons à la modale
   buttonNewImage.classList = "button_modal";
   buttonNewImage.innerHTML = "Ajouter une photo";
@@ -144,13 +151,14 @@ function updateHomepageGallery(imageId) {
   }
 }
 
-
+returnModal.addEventListener('click' , displayWorksInModal)
   
 // Formulaire ajout photo
 const ajusteNewImage = () => {
   // Titre modale
   titleModal.innerHTML = "Ajout photo";
-
+  returnModal.classList = "return_icon";
+  
   formElement = document.createElement("form");
   formElement.id = "formulaire_ajust";
   formElement.action = "app.js";
@@ -209,13 +217,16 @@ const ajusteNewImage = () => {
     categoryNewImage.appendChild(option);
   }
 
-  const buttonSend = document.createElement("input");
+  
   buttonSend.type = "submit";
   buttonSend.id = "button_send";
   buttonSend.classList = "button_modal";
   buttonSend.innerHTML = "Valider";
-  formElement.appendChild(buttonSend);
+  formElement.appendChild(lineDecoration);
 
+
+  formElement.appendChild(buttonSend);
+  
   editModal.innerHTML = "";
   buttonSupprimer.innerHTML = "";
   buttonNewImage.classList = "button_none";
@@ -224,13 +235,15 @@ const ajusteNewImage = () => {
   buttonSend.addEventListener('click', envoyerFormulaire);
 };
 
+const buttonSend = document.createElement("button");
+
 const envoyerFormulaire = (event) => {
   event.preventDefault();
   const formElement = document.getElementById("formulaire_ajust");
   const imageFile = formElement.elements.new_image?.files?.[0];
   const titre = formElement.elements.title_new_image?.value;
   const category = parseInt(formElement.elements.select_category?.value); // Convert to an integer
-
+  buttonSend.id = ""
   const formData = new FormData();
   formData.append('image', imageFile);
   formData.append('title', titre);
@@ -290,10 +303,6 @@ const ajouterNouvellePhoto = (photoData) => {
   boutonAjustNone.classList = "bouton_ajust_none";
   elementAddImage.id = "display_image_form";
   elementAddImage.src = imageUrl;
-  // const displayImage = document.createElement("logo_formulaire_image")
-  // displayImage.classList = "display_image_form";
-  // displayImage.appendChild(imageGallery);
-  // elementAddImage.appendChild(displayImage);
 
   listWorks.push(photoData);
   

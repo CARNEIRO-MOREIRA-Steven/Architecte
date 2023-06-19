@@ -66,6 +66,7 @@
     width: 95%;
     max-width: 600px;
     min-width: 400px;
+    height: 650px;
     padding: 70px;
     background: #fff;
     border-radius: 10px;
@@ -100,7 +101,8 @@
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     color: black;
     text-align: center;
-    margin-top: 35px;
+    margin-bottom:40px;
+    font-weight: 300;
     
 }
 
@@ -149,6 +151,7 @@
     justify-content: center;
     margin: auto;
     font-size: 15px;
+    margin-top: 50px;
 }
 
 .button_supprimer{
@@ -257,4 +260,21 @@ label {
 
 .bouton_ajust_none{
     visibility: hidden;
+}
+
+.line_decoration{
+    border: solid 1px;
+    font-weight: 100;
+    width: 95%;
+    margin-top: 50px;
+}
+
+.return_icon {
+    position: absolute;
+    top: 25px;
+    left: 30px;
+}
+
+.return_icon_none{
+    display: none;
 }

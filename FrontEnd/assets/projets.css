@@ -63,10 +63,10 @@
 
 
 .modal{
-    width: 95%;
+    width: 100%;
     max-width: 600px;
     min-width: 400px;
-    height: 650px;
+    height: 640px;
     padding: 70px;
     background: #fff;
     border-radius: 10px;
@@ -101,7 +101,7 @@
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     color: black;
     text-align: center;
-    margin-bottom:40px;
+    margin-bottom:20px;
     font-weight: 300;
     
 }
@@ -113,10 +113,13 @@
 }  
 
 .edit_modal{
+    align-content: flex-start;
     width: 100%;
     display: flex;
     flex-wrap: wrap; 
+    max-height: 490px;
 }
+
 .edit_modal figure{
     padding: 5px 2px;
     width: 19%;
@@ -129,9 +132,9 @@
 .edit_modal img{
     display: flex;
     align-items: center;
-    height: 100px;
-    width: 80px;
-   
+    height: 120px;
+    width : 90px;
+    object-fit: cover;
 }
 
 .edit_modal figcaption{
@@ -151,7 +154,7 @@
     justify-content: center;
     margin: auto;
     font-size: 15px;
-    margin-top: 50px;
+    margin-top: 40px;
 }
 
 .button_supprimer{
@@ -164,15 +167,12 @@
     margin: auto;
 }
 
-.button_none{
-    visibility:hidden;
-}
 
 #formulaire_ajust{
     display: flex;
     flex-direction: column;
     border: none;
-    gap: 20px;
+    gap: 25px;
     width: 100%;
     margin: 0px 20px;
 }
@@ -181,12 +181,26 @@
     background-color: gray;
 }
 
-.select_delete{
+.delete_button{
     display: flex;
-    top: 20px;
-    left : 30px ;
+    justify-content: center;
+    align-items: center;
+    top: 25px;
+    left : 25px ;
     position: relative;
     z-index: 10;
+    height: 20px;
+    width: 20px;
+    background-color: black;
+    border: none;
+    border-radius: 5px;
+    padding: 0;
+}
+
+#delete_icon{
+    height: 13px;
+    width: 15px;
+    object-fit: none;
 }
 
 .element_add_image{
@@ -266,7 +280,7 @@ label {
     border: solid 1px;
     font-weight: 100;
     width: 95%;
-    margin-top: 50px;
+    margin-top: 35px;
 }
 
 .return_icon {

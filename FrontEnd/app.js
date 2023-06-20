@@ -1,24 +1,16 @@
-const modalContainer = document.querySelector(".modal_container");
+const userId = localStorage.getItem("userId");
+const token = localStorage.getItem("token");
+let imageId;
+// Récupération élements modale
 const modalTriggers = document.querySelectorAll(".modal_trigger");
 modalTriggers.forEach(trigger => {
   trigger.addEventListener("click", toggleModal);
 });
-const editModal = document.querySelector(".edit_modal");
-const modal = document.querySelector(".modal");
-const elementGalery = document.createElement("section");
-modal.appendChild(elementGalery);
-const modalGallery = document.querySelector(".modal_gallery");
-const returnModal = document.createElement("img");
-returnModal.src = "./assets/icons/Arrow_Back.svg"
-
-modal.appendChild(returnModal);
-
-
-
 // Ouverture de la modale
 function toggleModal() {
   modalContainer.classList.toggle("active");
   displayWorksInModal();
+
   // Si class active affichée
   if (modalContainer.classList.contains("active")) {
     buttonNewImage.style.display = "block";
@@ -29,108 +21,94 @@ function toggleModal() {
   }
 }
 
-const userId = localStorage.getItem("userId");
-const token = localStorage.getItem("token");
+// Récupération éléments modale 
+const modalContainer = document.querySelector(".modal_container");
+const modal = document.querySelector(".modal");
+const elementGalery = document.createElement("section");
 const titleModal = document.querySelector("h1");
+const modalGallery = document.querySelector(".modal_gallery");
+const lineDecoration = document.createElement("div");
 const buttonNewImage = document.createElement("button");
 const buttonSupprimer = document.createElement("button");
+const returnModal = document.createElement("img");
+
+// Parents enfants
+modal.appendChild(elementGalery);
+modal.appendChild(returnModal);
 elementGalery.appendChild(titleModal);
-const lineDecoration = document.createElement("div");
-let imageId;
+returnModal.src = "./assets/icons/Arrow_Back.svg"
 
 // Affichage des images dans la modale
 const displayWorksInModal = () => {
-  if (modalContainer.classList.contains("active")) { // Vérifier si la modale est active
-    modalGallery.innerHTML = ''; // Vider la galerie avant d'afficher les résultats
+  
+  titleModal.innerHTML = "Galerie photo";
+  modalGallery.innerHTML = '';
+
+  if (modalContainer.classList.contains("active")) {// Vérifier si la modale est active
     // Boucle pour récupérer les images + créer des constantes
+    
+ 
     for (let i = 0; i < listWorks.length; i++) {
-      const { id, title, imageUrl, userId } = listWorks[i];
-      if (isImageDeleted(id)) {
-        continue;
-      }
-      returnModal.classList = "return_icon_none"
-      const cardGallery = document.createElement("figure");
+       const { id, title, imageUrl, userId } = listWorks[i];
+       const cardGallery = document.createElement("figure");
+       const imageGallery = document.createElement("img");
+       const titleGallery = document.createElement("figcaption");
+       const trashButton = document.createElement("button");
+       const trashIcon = document.createElement("img");
+       const imageId = id;
+        // updateGallery(imageId);
+      //Ajout attribue, classe ...
       cardGallery.setAttribute("data-image-id", id);
-      const imageId = id;
-      const checkbox = document.createElement("input");
       cardGallery.id = imageId;
-      const imageGallery = document.createElement("img");
-      const titleGallery = document.createElement("figcaption");
-      checkbox.type = "checkbox";
-      checkbox.name = "select_delete";
-      checkbox.classList = "select_delete";
-      titleModal.innerHTML = "Galerie photo";
-
-      cardGallery.appendChild(checkbox);
-      cardGallery.appendChild(imageGallery);
-      cardGallery.appendChild(titleGallery);
-
       imageGallery.src = imageUrl;
       titleGallery.innerHTML = "éditer";
+      trashButton.classList = "delete_button";
+      trashIcon.src = "./assets/icons/Vector.svg"
+      trashIcon.id = "delete_icon";
+      
+      //Parents enfants
+      // cardGallery.appendChild(checkbox);
+     
+      cardGallery.appendChild(trashButton);
+      trashButton.appendChild(trashIcon);
+      cardGallery.appendChild(imageGallery);
+      cardGallery.appendChild(titleGallery);
+      modalGallery.appendChild(cardGallery); 
+      elementGalery.appendChild(modalGallery);
+      elementGalery.appendChild(lineDecoration);
+      elementGalery.appendChild(buttonNewImage);
+      elementGalery.appendChild(buttonSupprimer);
 
-      modalGallery.appendChild(cardGallery);
+      //Cacher l'icone de retour
+      returnModal.classList = "return_icon_none"
+      lineDecoration.classList = "line_decoration";
+      buttonNewImage.classList = "button_modal";
+      buttonNewImage.innerHTML = "Ajouter une photo";
+      buttonSupprimer.classList = "button_supprimer";
+      buttonSupprimer.innerHTML = "Supprimer la galerie";
+      buttonNewImage.style.display= "block"
+      buttonSupprimer.style.display = "block"
+
+      trashButton.addEventListener('click', supprimerGalerie)
+
+  function supprimerGalerie() {
+  const imageId = cardGallery.getAttribute("data-image-id");
+  console.log(cardGallery);
+  const imageToDelete = document.querySelector(`[data-image-id="${imageId}"]`);
+  fetch(`http://localhost:5678/api/works/${imageId}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + token
     }
-  }
-
-  elementGalery.appendChild(modalGallery);
-  
-  lineDecoration.classList = "line_decoration";
-  elementGalery.appendChild(lineDecoration);
-  // Ajouter les boutons à la modale
-  buttonNewImage.classList = "button_modal";
-  buttonNewImage.innerHTML = "Ajouter une photo";
-  buttonSupprimer.classList = "button_supprimer";
-  buttonSupprimer.innerHTML = "Supprimer la galerie";
-  elementGalery.appendChild(buttonNewImage);
-  elementGalery.appendChild(buttonSupprimer);
-
-  // Ajouter les écouteurs d'événements aux boutons
-  buttonNewImage.addEventListener('click', ajusteNewImage);
-  buttonSupprimer.addEventListener('click', supprimerGalerie);
-};
-
-// Tableau pour stocker les ID des images supprimées
-const deletedImageIds = [];
-
-// Fonction pour vérifier si une image a été supprimée
-function isImageDeleted(imageId) {
-  return deletedImageIds.includes(imageId);
-}
-
-function supprimerGalerie() {
-  const checkboxs = document.querySelectorAll('.select_delete:checked');
-
-  checkboxs.forEach(checkbox => {
-    const imageId = checkbox.parentElement.getAttribute("data-image-id"); // Récupérer l'ID de l'image à partir de l'attribut data-image-id
-
-    // Effectue une requête DELETE à votre API
-    fetch(`http://localhost:5678/api/works/${imageId}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + token
-      }
-    })
+  })
     .then(response => {
+      console.log(response)
       if (response.ok) {
-        console.log('La galerie a été supprimée avec succès.');
-
-        deletedImageIds.push(imageId)
-        // Supprimer l'image de la galerie sur la page d'accueil
-        const galleryItem = document.querySelector(`[data-image-id="${imageId}"]`);
-        if (galleryItem) {
-          galleryItem.remove();
-        }
-
-        // Mettre à jour la galerie dans la modale sans recharger la page
-        const imageToDelete = modalGallery.querySelector(`[data-image-id="${imageId}"]`);
-        if (imageToDelete) {
-          imageToDelete.remove();
-        }
-
-        // Mettre à jour la galerie sur la page d'accueil
-        updateHomepageGallery(imageId);
-
+        // Mettre à jour la galerie
+          imageToDelete.remove(cardGallery);
+          updateGallery(imageId);
+          alert ('La galerie a été supprimée avec succès.')
       } else {
         console.log('La suppression de la galerie a échoué avec le code de statut: ' + response.status);
         // Faire quelque chose en cas d'échec de la suppression de la galerie
@@ -140,10 +118,15 @@ function supprimerGalerie() {
       console.error('Une erreur s\'est produite lors de la suppression de la galerie:', error);
       // Faire quelque chose en cas d'erreur lors de la suppression de la galerie
     });
-  });
 }
+    }
+  }
+  // Ajouter les écouteurs d'événements aux boutons
+  buttonNewImage.addEventListener('click', ajusteNewImage);
+};
 
-function updateHomepageGallery(imageId) {
+
+function updateGallery(imageId) {
   // Supprimer l'image de la galerie sur la page d'accueil
   const galleryItem = document.querySelector(`[data-image-id="${imageId}"]`);
   if (galleryItem) {
@@ -151,14 +134,13 @@ function updateHomepageGallery(imageId) {
   }
 }
 
-returnModal.addEventListener('click' , displayWorksInModal)
-  
 // Formulaire ajout photo
 const ajusteNewImage = () => {
   // Titre modale
+  returnModal.addEventListener('click', displayWorksInModal)
   titleModal.innerHTML = "Ajout photo";
   returnModal.classList = "return_icon";
-  
+
   formElement = document.createElement("form");
   formElement.id = "formulaire_ajust";
   formElement.action = "app.js";
@@ -169,7 +151,7 @@ const ajusteNewImage = () => {
   formElement.appendChild(elementAddImage);
 
   const logoImage = "./assets/icons/logo-image.svg"
-  const elementAddImageIcon = document.createElement ("img");
+  const elementAddImageIcon = document.createElement("img");
   elementAddImageIcon.src = logoImage;
   elementAddImageIcon.id = "logo_formulaire_image"
   elementAddImage.appendChild(elementAddImageIcon)
@@ -209,7 +191,7 @@ const ajusteNewImage = () => {
   categoryNewImage.id = "select_category";
   formElement.appendChild(categoryNewImage);
 
-  for (let i = 0; i < listCategories.length; i++) {
+  for (let i = 1; i < listCategories.length; i++) {
     const { id, name } = listCategories[i];
     const option = document.createElement("option");
     option.text = name;
@@ -217,21 +199,17 @@ const ajusteNewImage = () => {
     categoryNewImage.appendChild(option);
   }
 
-  
+  buttonNewImage.style.display= "none"
+  buttonSupprimer.style.display = "none"
   buttonSend.type = "submit";
   buttonSend.id = "button_send";
   buttonSend.classList = "button_modal";
   buttonSend.innerHTML = "Valider";
+  modalGallery.innerHTML = "";
+
   formElement.appendChild(lineDecoration);
-
-
   formElement.appendChild(buttonSend);
-  
-  editModal.innerHTML = "";
-  buttonSupprimer.innerHTML = "";
-  buttonNewImage.classList = "button_none";
-  buttonNewImage.innerHTML = "Valider";
-  editModal.appendChild(formElement);
+  modalGallery.appendChild(formElement);
   buttonSend.addEventListener('click', envoyerFormulaire);
 };
 
@@ -242,7 +220,7 @@ const envoyerFormulaire = (event) => {
   const formElement = document.getElementById("formulaire_ajust");
   const imageFile = formElement.elements.new_image?.files?.[0];
   const titre = formElement.elements.title_new_image?.value;
-  const category = parseInt(formElement.elements.select_category?.value); // Convert to an integer
+  const category = parseInt(formElement.elements.select_category?.value);
   buttonSend.id = ""
   const formData = new FormData();
   formData.append('image', imageFile);
@@ -283,10 +261,10 @@ const ajouterNouvellePhoto = (photoData) => {
   const { id, title, imageUrl, userId } = photoData;
   // Créer les éléments HTML de la nouvelle photo
   const cardGallery = document.createElement("figure");
-  cardGallery.setAttribute("data-image-id", id);
   const imageId = id;
   const checkbox = document.createElement("input");
   cardGallery.id = imageId;
+  cardGallery.setAttribute("data-image-id", id);
   const imageGallery = document.createElement("img");
   const titleGallery = document.createElement("figcaption");
   checkbox.type = "checkbox";
@@ -295,7 +273,7 @@ const ajouterNouvellePhoto = (photoData) => {
 
   // Remplir les éléments avec les données de la nouvelle photo
   imageGallery.src = imageUrl;
-  titleGallery.innerHTML = "editer";
+  titleGallery.innerHTML = "éditer";
 
   const elementAddImage = document.getElementById("logo_formulaire_image");
   const boutonAjustNone = document.querySelector(".ajust_image");
@@ -305,7 +283,7 @@ const ajouterNouvellePhoto = (photoData) => {
   elementAddImage.src = imageUrl;
 
   listWorks.push(photoData);
-  
+
   // Ajouter les éléments à la galerie sur la page d'accueil
   const gallery = document.querySelector(".gallery");
   const cardHomepage = document.createElement("figure");

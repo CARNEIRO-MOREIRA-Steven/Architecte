@@ -158,6 +158,9 @@ const ajusteNewImage = () => {
   elementAddImageIcon.id = "logo_formulaire_image"
   elementAddImage.appendChild(elementAddImageIcon)
 
+  const imageContainer = document.createElement("div");
+  imageContainer.id = "display_image_form";
+  elementAddImage.appendChild(imageContainer);
 
   const imageNewImageLabel = document.createElement("label");
   imageNewImageLabel.classList = "ajust_image"
@@ -168,6 +171,7 @@ const ajusteNewImage = () => {
   const imageNewImage = document.createElement("input");
   imageNewImage.type = "file";
   imageNewImage.id = "new_image";
+  imageNewImage.addEventListener('change', afficherImage);
   elementAddImage.appendChild(imageNewImage);
 
   const detailsAddImage = document.createElement("p");
@@ -213,7 +217,38 @@ const ajusteNewImage = () => {
   formElement.appendChild(buttonSend);
   modalGallery.appendChild(formElement);
   buttonSend.addEventListener('click', envoyerFormulaire);
+
+function afficherImage() {
+  const fichier = imageNewImage.files[0];
+  const lecteur = new FileReader();
+  const elementAddImage = document.getElementById("display_image_form");
+  const boutonAjustNone = document.querySelector(".ajust_image");
+  const inputHidden = document.getElementById("new_image");
+  inputHidden.style.display = "none"
+  if (!elementAddImage || !boutonAjustNone) {
+    console.error("Erreur : élément non trouvé");
+    return;
+  }
+
+  elementAddImage.innerHTML = "";
+  boutonAjustNone.classList.add("bouton_ajust_none");
+
+  lecteur.onload = function(e) {
+    const urlImage = e.target.result;
+    const imageAffichee = document.createElement("img");
+    imageAffichee.src = urlImage;
+    imageAffichee.id = "display_image_form"
+
+    elementAddImage.appendChild(imageAffichee);
+  };
+
+  lecteur.readAsDataURL(fichier);
+}
+
+
+
 };
+
 
 const buttonSend = document.createElement("button");
 
@@ -264,26 +299,14 @@ const ajouterNouvellePhoto = (photoData) => {
   // Créer les éléments HTML de la nouvelle photo
   const cardGallery = document.createElement("figure");
   const imageId = id;
-  const checkbox = document.createElement("input");
   cardGallery.id = imageId;
   cardGallery.setAttribute("data-image-id", id);
   const imageGallery = document.createElement("img");
   const titleGallery = document.createElement("figcaption");
-  checkbox.type = "checkbox";
-  checkbox.name = "select_delete";
-  checkbox.classList = "select_delete";
 
   // Remplir les éléments avec les données de la nouvelle photo
   imageGallery.src = imageUrl;
   titleGallery.innerHTML = "éditer";
-
-  const elementAddImage = document.getElementById("logo_formulaire_image");
-  const boutonAjustNone = document.querySelector(".ajust_image");
-
-  boutonAjustNone.classList = "bouton_ajust_none";
-  elementAddImage.id = "display_image_form";
-  elementAddImage.src = imageUrl;
-
   listWorks.push(photoData);
 
   // Ajouter les éléments à la galerie sur la page d'accueil
@@ -299,3 +322,4 @@ const ajouterNouvellePhoto = (photoData) => {
   cardHomepage.appendChild(titleHomepage);
   gallery.appendChild(cardHomepage);
 };
+ajusteNewImage();

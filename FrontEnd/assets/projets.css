@@ -218,7 +218,8 @@
 
 #new_image{
     position: fixed;
-    width: 100px;
+    width: 170px;
+    height: 35px;
     top: 250px;
     left: 300px;
 }
@@ -226,7 +227,7 @@
 
 .ajust_image{
     position: fixed;
-    top: 250px;
+    top: 240px;
     left: 270px;
     width: 200px;
     height: 40px;
@@ -241,9 +242,8 @@
 }
 
 #logo_formulaire_image{
-    width: auto;
-    height: 50px;
-    margin-top: 35px;
+    padding-top: 30px;
+    margin: auto;
 }
 
 .element_add_image p {

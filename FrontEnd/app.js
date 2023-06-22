@@ -40,16 +40,17 @@ returnModal.src = "./assets/icons/Arrow_Back.svg"
 
 // Affichage des images dans la modale
 const displayWorksInModal = () => {
-  
+    const worksExist = listWorks.filter(work => {// Filtrer les images qui existent toujours
+    const galleryItem = document.querySelector(`[data-image-id="${work.id}"]`);
+    return galleryItem !== null; // Retourne true si l'élément existe
+  });
+
   titleModal.innerHTML = "Galerie photo";
   modalGallery.innerHTML = '';
 
   if (modalContainer.classList.contains("active")) {// Vérifier si la modale est active
-    // Boucle pour récupérer les images + créer des constantes
-    
- 
-    for (let i = 0; i < listWorks.length; i++) {
-       const { id, title, imageUrl, userId } = listWorks[i];
+ worksExist.forEach(work => {// Boucle pour récupérer chaque élément du tableau
+       const { id, title, imageUrl, userId } = work;
        const cardGallery = document.createElement("figure");
        const imageGallery = document.createElement("img");
        const titleGallery = document.createElement("figcaption");
@@ -89,11 +90,12 @@ const displayWorksInModal = () => {
       buttonNewImage.style.display= "block"
       buttonSupprimer.style.display = "block"
 
-      trashButton.addEventListener('click', supprimerGalerie)
+      trashButton.addEventListener('click', () => {
+        supprimerGalerie(imageId); // Appeler la fonction seulement lorsque le bouton de suppression est cliqué
+      });
+
 
   function supprimerGalerie() {
-  const imageId = cardGallery.getAttribute("data-image-id");
-  console.log(cardGallery);
   const imageToDelete = document.querySelector(`[data-image-id="${imageId}"]`);
   fetch(`http://localhost:5678/api/works/${imageId}`, {
     method: 'DELETE',
@@ -119,7 +121,7 @@ const displayWorksInModal = () => {
       // Faire quelque chose en cas d'erreur lors de la suppression de la galerie
     });
 }
-    }
+    })
   }
   // Ajouter les écouteurs d'événements aux boutons
   buttonNewImage.addEventListener('click', ajusteNewImage);

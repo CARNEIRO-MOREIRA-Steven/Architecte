@@ -212,10 +212,6 @@
     border-radius: 5px;
 }
 
-.new_image{
-    display: none;
-}
-
 #new_image{
     position: fixed;
     width: 170px;
@@ -266,14 +262,13 @@ label {
 
 #display_image_form {
     position: fixed;
-    z-index: 15;
     width: 20%;
     height: 190px;
     left: 300px;
 }
 
 .bouton_ajust_none{
-    visibility: hidden;
+    display: none
 }
 
 .line_decoration{

@@ -229,11 +229,12 @@ function afficherImage() {
     console.error("Erreur : élément non trouvé");
     return;
   }
-
-  elementAddImage.innerHTML = "";
+  elementAddImageIcon.style.display ="none";
+  detailsAddImage.innerHTML= "";
   boutonAjustNone.classList.add("bouton_ajust_none");
 
   lecteur.onload = function(e) {
+   
     const urlImage = e.target.result;
     const imageAffichee = document.createElement("img");
     imageAffichee.src = urlImage;

@@ -1,6 +1,6 @@
 const userId = localStorage.getItem("userId");
 const token = localStorage.getItem("token");
-let imageId;
+
 // Récupération élements modale
 const modalTriggers = document.querySelectorAll(".modal_trigger");
 modalTriggers.forEach(trigger => {
@@ -40,7 +40,7 @@ returnModal.src = "./assets/icons/Arrow_Back.svg"
 
 // Affichage des images dans la modale
 const displayWorksInModal = () => {
-    const worksExist = listWorks.filter(work => {// Filtrer les images qui existent toujours
+  const worksExist = listWorks.filter(work => {// Filtrer les images qui existent toujours
     const galleryItem = document.querySelector(`[data-image-id="${work.id}"]`);
     return galleryItem !== null; // Retourne true si l'élément existe
   });
@@ -48,16 +48,22 @@ const displayWorksInModal = () => {
   titleModal.innerHTML = "Galerie photo";
   modalGallery.innerHTML = '';
 
+  let cardGallery;
+  let imageGallery;
+  let titleGallery;
+  let trashButton;
+  let trashIcon;
+
   if (modalContainer.classList.contains("active")) {// Vérifier si la modale est active
- worksExist.forEach(work => {// Boucle pour récupérer chaque élément du tableau
-       const { id, title, imageUrl, userId } = work;
-       const cardGallery = document.createElement("figure");
-       const imageGallery = document.createElement("img");
-       const titleGallery = document.createElement("figcaption");
-       const trashButton = document.createElement("button");
-       const trashIcon = document.createElement("img");
-       const imageId = id;
-        // updateGallery(imageId);
+    worksExist.forEach(work => {// Boucle pour récupérer chaque élément du tableau
+      const { id, title, imageUrl, userId } = work;
+      cardGallery = document.createElement("figure");
+      imageGallery = document.createElement("img");
+      titleGallery = document.createElement("figcaption");
+      trashButton = document.createElement("button");
+      trashIcon = document.createElement("img");
+      const imageId = id;
+      // updateGallery(imageId);
       //Ajout attribue, classe ...
       cardGallery.setAttribute("data-image-id", id);
       cardGallery.id = imageId;
@@ -66,15 +72,15 @@ const displayWorksInModal = () => {
       trashButton.classList = "delete_button";
       trashIcon.src = "./assets/icons/Vector.svg"
       trashIcon.id = "delete_icon";
-      
+
       //Parents enfants
       // cardGallery.appendChild(checkbox);
-     
+
       cardGallery.appendChild(trashButton);
       trashButton.appendChild(trashIcon);
       cardGallery.appendChild(imageGallery);
       cardGallery.appendChild(titleGallery);
-      modalGallery.appendChild(cardGallery); 
+      modalGallery.appendChild(cardGallery);
       elementGalery.appendChild(modalGallery);
       elementGalery.appendChild(lineDecoration);
       elementGalery.appendChild(buttonNewImage);
@@ -87,44 +93,43 @@ const displayWorksInModal = () => {
       buttonNewImage.innerHTML = "Ajouter une photo";
       buttonSupprimer.classList = "button_supprimer";
       buttonSupprimer.innerHTML = "Supprimer la galerie";
-      buttonNewImage.style.display= "block"
+      buttonNewImage.style.display = "block"
       buttonSupprimer.style.display = "block"
-
+      // Ajouter les écouteurs d'événements aux boutons
+      buttonNewImage.addEventListener('click', ajusteNewImage);
       trashButton.addEventListener('click', () => {
         supprimerGalerie(imageId); // Appeler la fonction seulement lorsque le bouton de suppression est cliqué
       });
 
 
-  function supprimerGalerie() {
-  const imageToDelete = document.querySelector(`[data-image-id="${imageId}"]`);
-  fetch(`http://localhost:5678/api/works/${imageId}`, {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + token
-    }
-  })
-    .then(response => {
-      console.log(response)
-      if (response.ok) {
-        // Mettre à jour la galerie
-          imageToDelete.remove(cardGallery);
-          updateGallery(imageId);
-          alert ('La galerie a été supprimée avec succès.')
-      } else {
-        console.log('La suppression de la galerie a échoué avec le code de statut: ' + response.status);
-        // Faire quelque chose en cas d'échec de la suppression de la galerie
+      function supprimerGalerie() {
+        const imageToDelete = document.querySelector(`[data-image-id="${imageId}"]`);
+        fetch(`http://localhost:5678/api/works/${imageId}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token
+          }
+        })
+          .then(response => {
+            console.log(response)
+            if (response.ok) {
+              // Mettre à jour la galerie
+              imageToDelete.remove(cardGallery);
+              updateGallery(imageId);
+              alert('La galerie a été supprimée avec succès.')
+            } else {
+              console.log('La suppression de la galerie a échoué avec le code de statut: ' + response.status);
+              // Faire quelque chose en cas d'échec de la suppression de la galerie
+            }
+          })
+          .catch(error => {
+            console.error('Une erreur s\'est produite lors de la suppression de la galerie:', error);
+            // Faire quelque chose en cas d'erreur lors de la suppression de la galerie
+          });
       }
     })
-    .catch(error => {
-      console.error('Une erreur s\'est produite lors de la suppression de la galerie:', error);
-      // Faire quelque chose en cas d'erreur lors de la suppression de la galerie
-    });
-}
-    })
   }
-  // Ajouter les écouteurs d'événements aux boutons
-  buttonNewImage.addEventListener('click', ajusteNewImage);
 };
 
 
@@ -205,7 +210,7 @@ const ajusteNewImage = () => {
     categoryNewImage.appendChild(option);
   }
 
-  buttonNewImage.style.display= "none"
+  buttonNewImage.style.display = "none"
   buttonSupprimer.style.display = "none"
   buttonSend.type = "submit";
   buttonSend.id = "button_send";
@@ -218,38 +223,34 @@ const ajusteNewImage = () => {
   modalGallery.appendChild(formElement);
   buttonSend.addEventListener('click', envoyerFormulaire);
 
-function afficherImage() {
-  const fichier = imageNewImage.files[0];
-  const lecteur = new FileReader();
-  const elementAddImage = document.getElementById("display_image_form");
-  const boutonAjustNone = document.querySelector(".ajust_image");
-  const inputHidden = document.getElementById("new_image");
-  inputHidden.style.display = "none"
-  if (!elementAddImage || !boutonAjustNone) {
-    console.error("Erreur : élément non trouvé");
-    return;
+  function afficherImage() {
+    const fichier = imageNewImage.files[0]; // Récupère le fichier sélectionné
+    const lecteur = new FileReader(); // Crée une instance de FileReader
+    const elementAddImage = document.getElementById("display_image_form");
+    const boutonAjustNone = document.querySelector(".ajust_image");
+    const inputHidden = document.getElementById("new_image");
+    inputHidden.style.display = "none"
+    if (!elementAddImage || !boutonAjustNone) {
+      console.error("Erreur : élément non trouvé");
+      return;
+    }
+    elementAddImageIcon.style.display = "none";
+    detailsAddImage.innerHTML = "";
+    boutonAjustNone.classList.add("bouton_ajust_none");
+
+    // Fonction de rappel lors du chargement du lecteur
+    lecteur.onload = function (e) {
+      const urlImage = e.target.result; // Récupère l'URL de l'image
+      const imageAffichee = document.createElement("img");
+      imageAffichee.src = urlImage;
+      imageAffichee.id = "display_image_form";
+
+      elementAddImage.appendChild(imageAffichee);
+    };
+
+    lecteur.readAsDataURL(fichier);
   }
-  elementAddImageIcon.style.display ="none";
-  detailsAddImage.innerHTML= "";
-  boutonAjustNone.classList.add("bouton_ajust_none");
-
-  lecteur.onload = function(e) {
-   
-    const urlImage = e.target.result;
-    const imageAffichee = document.createElement("img");
-    imageAffichee.src = urlImage;
-    imageAffichee.id = "display_image_form"
-
-    elementAddImage.appendChild(imageAffichee);
-  };
-
-  lecteur.readAsDataURL(fichier);
 }
-
-
-
-};
-
 
 const buttonSend = document.createElement("button");
 
@@ -260,10 +261,10 @@ const envoyerFormulaire = (event) => {
   const titre = formElement.elements.title_new_image?.value;
   const category = parseInt(formElement.elements.select_category?.value);
   buttonSend.id = ""
-  const formData = new FormData();
-  formData.append('image', imageFile);
-  formData.append('title', titre);
-  formData.append('category', category);
+  const formData = new FormData(); // Crée une instance de FormData
+  formData.append("image", imageFile); // Ajoute l'image au FormData
+  formData.append("title", titre); // Ajoute le titre au FormData
+  formData.append("category", category); // Ajoute la catégorie au FormData
 
   for (const value of formData.entries()) {
     console.log(value[0], value[1]);

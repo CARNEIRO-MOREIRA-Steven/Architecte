@@ -40,11 +40,7 @@ returnModal.src = "./assets/icons/Arrow_Back.svg"
 
 // Affichage des images dans la modale
 const displayWorksInModal = () => {
-  const worksExist = listWorks.filter(work => {// Filtrer les images qui existent toujours
-    const galleryItem = document.querySelector(`[data-image-id="${work.id}"]`);
-    return galleryItem !== null; // Retourne true si l'élément existe
-  });
-
+  const worksExist = listWorks;
   titleModal.innerHTML = "Galerie photo";
   modalGallery.innerHTML = '';
 
@@ -63,7 +59,6 @@ const displayWorksInModal = () => {
       trashButton = document.createElement("button");
       trashIcon = document.createElement("img");
       const imageId = id;
-      // updateGallery(imageId);
       //Ajout attribue, classe ...
       cardGallery.setAttribute("data-image-id", id);
       cardGallery.id = imageId;
@@ -74,8 +69,6 @@ const displayWorksInModal = () => {
       trashIcon.id = "delete_icon";
 
       //Parents enfants
-      // cardGallery.appendChild(checkbox);
-
       cardGallery.appendChild(trashButton);
       trashButton.appendChild(trashIcon);
       cardGallery.appendChild(imageGallery);
@@ -102,7 +95,7 @@ const displayWorksInModal = () => {
       });
 
 
-      function supprimerGalerie() {
+      function supprimerGalerie(imageId) {
         const imageToDelete = document.querySelector(`[data-image-id="${imageId}"]`);
         fetch(`http://localhost:5678/api/works/${imageId}`, {
           method: 'DELETE',
@@ -115,7 +108,7 @@ const displayWorksInModal = () => {
             console.log(response)
             if (response.ok) {
               // Mettre à jour la galerie
-              imageToDelete.remove(cardGallery);
+              imageToDelete.remove();
               updateGallery(imageId);
               alert('La galerie a été supprimée avec succès.')
             } else {
@@ -136,9 +129,11 @@ const displayWorksInModal = () => {
 function updateGallery(imageId) {
   // Supprimer l'image de la galerie sur la page d'accueil
   const galleryItem = document.querySelector(`[data-image-id="${imageId}"]`);
-  if (galleryItem) {
+  if (galleryItem !== null) {
     galleryItem.remove();
   }
+  // Mettre à jour la liste des travaux en supprimant l'élément correspondant
+  listWorks = listWorks.filter(work => work.id !== imageId);
 }
 
 // Formulaire ajout photo
@@ -297,7 +292,7 @@ const envoyerFormulaire = (event) => {
 };
 
 const ajouterNouvellePhoto = (photoData) => {
-  const { id, title, imageUrl, userId } = photoData;
+  const { id, title, imageUrl, userId, categoryId} = photoData;
   // Créer les éléments HTML de la nouvelle photo
   const cardGallery = document.createElement("figure");
   const imageId = id;
@@ -305,7 +300,9 @@ const ajouterNouvellePhoto = (photoData) => {
   cardGallery.setAttribute("data-image-id", id);
   const imageGallery = document.createElement("img");
   const titleGallery = document.createElement("figcaption");
-
+  photoData.category = listCategories.find(element =>  element.id == (photoData.categoryId));
+    photoData.categoryId = parseInt(photoData.categoryId);
+    console.log(photoData.categoryId)
   // Remplir les éléments avec les données de la nouvelle photo
   imageGallery.src = imageUrl;
   titleGallery.innerHTML = "éditer";

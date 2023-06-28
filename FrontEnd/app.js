@@ -105,20 +105,17 @@ const displayWorksInModal = () => {
           }
         })
           .then(response => {
-            console.log(response)
             if (response.ok) {
               // Mettre à jour la galerie
               imageToDelete.remove();
               updateGallery(imageId);
               alert('La galerie a été supprimée avec succès.')
             } else {
-              console.log('La suppression de la galerie a échoué avec le code de statut: ' + response.status);
-              // Faire quelque chose en cas d'échec de la suppression de la galerie
+              alert('La suppression de la galerie a échoué avec le code de statut: ' + response.status);
             }
           })
           .catch(error => {
-            console.error('Une erreur s\'est produite lors de la suppression de la galerie:', error);
-            // Faire quelque chose en cas d'erreur lors de la suppression de la galerie
+            alert ('Une erreur s\'est produite lors de la suppression de la galerie:', error);
           });
       }
     })
@@ -226,7 +223,6 @@ const ajusteNewImage = () => {
     const inputHidden = document.getElementById("new_image");
     inputHidden.style.display = "none"
     if (!elementAddImage || !boutonAjustNone) {
-      console.error("Erreur : élément non trouvé");
       return;
     }
     elementAddImageIcon.style.display = "none";
@@ -239,7 +235,6 @@ const ajusteNewImage = () => {
       const imageAffichee = document.createElement("img");
       imageAffichee.src = urlImage;
       imageAffichee.id = "display_image_form";
-
       elementAddImage.appendChild(imageAffichee);
     };
 
@@ -262,7 +257,6 @@ const envoyerFormulaire = (event) => {
   formData.append("category", category); // Ajoute la catégorie au FormData
 
   for (const value of formData.entries()) {
-    console.log(value[0], value[1]);
   }
 
   fetch('http://localhost:5678/api/works', {
@@ -277,7 +271,6 @@ const envoyerFormulaire = (event) => {
         alert('Nouvelle photo ajoutée avec succès.');
         return response.json();
       } else {
-        console.log('La requête a échoué avec le code de statut: ' + response.status);
         throw new Error('Failed to upload image');
       }
     })
@@ -286,7 +279,7 @@ const envoyerFormulaire = (event) => {
       ajouterNouvellePhoto(data);
     })
     .catch(error => {
-      console.error('Une erreur s\'est produite lors de l\'ajout de la photo:', error);
+      alert ('Une erreur s\'est produite lors de l\'ajout de la photo:', error);
       // Faire quelque chose en cas d'erreur lors de l'ajout de la photo
     });
 };
@@ -302,7 +295,6 @@ const ajouterNouvellePhoto = (photoData) => {
   const titleGallery = document.createElement("figcaption");
   photoData.category = listCategories.find(element =>  element.id == (photoData.categoryId));
     photoData.categoryId = parseInt(photoData.categoryId);
-    console.log(photoData.categoryId)
   // Remplir les éléments avec les données de la nouvelle photo
   imageGallery.src = imageUrl;
   titleGallery.innerHTML = "éditer";
